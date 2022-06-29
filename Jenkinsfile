@@ -11,6 +11,8 @@ pipeline {
       steps {
         echo 'Building..'
         sh 'mvn clean package'
+         sh 'jfrog c add --artifactory-url="https://swagatamjfrog.jfrog.io/artifactory/" --user="demo" --password="AKCp8mYy3yf14htMsfrogKCdsV9F16Kb7BuLMYSvoBpZPJcR6hWVwjgm1E69Wmb8FKuKQxATP"  --interactive="false"'
+          sh 'jfrog rt u "target/simple-servlet-0.0.1-SNAPSHOT.war" "test/simple-servlet-0.0.1-SNAPSHOT.war-$BUILD_NUMBER.jar" --recursive=false'
         
         // Add steps here
       }
