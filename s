@@ -1,6 +1,4 @@
-hi
-
-HI
+##openshift build from jenkins
 
 
 
