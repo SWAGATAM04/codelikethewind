@@ -22,7 +22,7 @@ pipeline {
                 
             }
         }
-
+      
 
     stage('Build') {
       steps {
@@ -34,6 +34,19 @@ pipeline {
         // Add steps here
       }
     }
+     stage('Sonarqube') {
+        
+           steps {
+              
+                withSonarQubeEnv('sonarqube') {
+                      sh 'mvn org.sonarsource.scanner.maven:sonar-maven-plugin:3.7.0.1746:sonar'
+                      
+                }
+                 timeout(time: 10, unit: 'MINUTES') {
+                              waitForQualityGate abortPipeline: true
+        }
+     }
+  }
     stage('Create Container Image') {
       steps {
         echo 'Create Container Image..'
