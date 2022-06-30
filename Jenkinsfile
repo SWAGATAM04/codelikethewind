@@ -41,7 +41,7 @@ pipeline {
         script {
 
           // Add steps here
-          openshift.withCluster() { 
+          openshift.withCluster('demo1') { 
             openshift.withCredentials('openshiftcred') {
                   openshift.withProject("swagatam-kundu-dev") {
   
@@ -63,7 +63,7 @@ pipeline {
         echo 'Deploying....'
         script {
 
-         openshift.withCluster() { 
+         openshift.withCluster('demo1') { 
           openshift.withCredentials('openshiftcred') {
             openshift.withProject("swagatam-kundu-dev") { 
                  def deployment = openshift.selector("dc", "codelikethewind") 
