@@ -21,7 +21,7 @@ pipeline {
         echo 'Building..'
         sh 'mvn clean package'
          sh 'jfrog c add --artifactory-url="https://swagatamjfrog.jfrog.io/artifactory/" --user="demo" --password="AKCp8mYy3yf14htMsfrogKCdsV9F16Kb7BuLMYSvoBpZPJcR6hWVwjgm1E69Wmb8FKuKQxATP"  --interactive="false"'
-          sh 'jfrog rt u "target/simple-servlet-0.0.1-SNAPSHOT.war" "test/simple-servlet-0.0.1-SNAPSHOT.war-$BUILD_NUMBER.jar" --recursive=false'
+          sh 'jfrog rt u "target/simple-servlet-0.0.1-SNAPSHOT.war" "test/simple-servlet-0.0.1-SNAPSHOT-$BUILD_NUMBER.war" --recursive=false'
         
         // Add steps here
       }
@@ -34,7 +34,8 @@ pipeline {
 
           // Add steps here
           openshift.withCluster() { 
-             openshift.withProject("swagatam-kundu-dev") {
+            openshift.withCredentials('openshiftcred') {
+                  openshift.withProject("swagatam-kundu-dev") {
   
                def buildConfigExists = openshift.selector("bc", "codelikethewind").exists() 
     
@@ -42,8 +43,10 @@ pipeline {
                    openshift.newBuild("--name=codelikethewind", "--docker-image=registry.redhat.io/jboss-eap-7/eap74-openjdk8-openshift-rhel7", "--binary") 
                } 
     
-                  openshift.selector("bc", "codelikethewind").startBuild("--from-file=target/simple-servlet-0.0.1-SNAPSHOT.war", "--follow") } }
-
+                  openshift.selector("bc", "codelikethewind").startBuild("--from-file=target/simple-servlet-0.0.1-SNAPSHOT.war", "--follow") 
+                  } 
+            }
+          }
         }
       }
     }
@@ -53,6 +56,7 @@ pipeline {
         script {
 
          openshift.withCluster() { 
+          openshift.withCredentials('openshiftcred') {
             openshift.withProject("swagatam-kundu-dev") { 
                  def deployment = openshift.selector("dc", "codelikethewind") 
     
@@ -67,7 +71,7 @@ pipeline {
            } 
          } 
        }
-
+     }
         }
       }
     }
