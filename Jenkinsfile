@@ -42,7 +42,7 @@ pipeline {
 
           // Add steps here
           openshift.withCluster('demo1') { 
-            openshift.withCredentials('openshiftcred') {
+            openshift.withCredentials('openshift') {
                   openshift.withProject("swagatam-kundu-dev") {
   
                def buildConfigExists = openshift.selector("bc", "codelikethewind-ext").exists() 
@@ -64,7 +64,7 @@ pipeline {
         script {
 
          openshift.withCluster('demo1') { 
-          openshift.withCredentials('openshiftcred') {
+          openshift.withCredentials('openshift') {
             openshift.withProject("swagatam-kundu-dev") { 
                  def deployment = openshift.selector("dc", "codelikethewind-ext") 
     
