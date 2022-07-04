@@ -1,14 +1,7 @@
 #! /usr/bin/env groovy
 
 pipeline {
-   environment {
-    KUBERNETES_SERVICE_HOST = "api.demo1.xss4.p1.openshiftapps.com"
-    KUBERNETES_SERVICE_PORT_HTTPS = "6443"
-    AUTH_TOKEN = "sha256~lPpxxoLE-ytZNdtInFpcw-ruRPqGaeNaSVSr7vfV-i8"
-    
-   
-    
-  }
+  
   agent any
     tools {
         maven "MAVEN"
